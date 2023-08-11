@@ -68,7 +68,7 @@ local function setup_widgets(s)
     s.mytasklist = awful.widget.tasklist({
         screen = s,
         filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons
+    buttons = tasklist_buttons
     })
 end
 

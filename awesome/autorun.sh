@@ -11,8 +11,8 @@ run "xrandr --output DP-1 --off"
 
 # Boring applications
 run "picom" -b
-run "nitrogen"--restore
-run "xscreensaver" --no-splash
+run "nitrogen" --random
+run "xscreensaver"
 run "nm-applet"
 
 # fun stuff
