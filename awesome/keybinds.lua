@@ -82,9 +82,6 @@ local function g_client_keys()
         awful.key({ Modkey, }, "Tab",
             function()
                 awful.client.focus.history.previous()
-                if g_client_keys().focus then
-                    g_client_keys().focus:raise()
-                end
             end,
             { description = "go back", group = "client" }),
         awful.key({ Modkey, "Control" }, "n",
@@ -143,7 +140,7 @@ local function g_misc_keys()
             { description = "run dmenu", group = "launcher" }),
         awful.key({ Modkey }, "p", function() require("menubar").show() end,
             { description = "show the menubar", group = "launcher" }),
-        awful.key({ Modkey, }, "Return", function() awful.spawn(terminal) end,
+        awful.key({ Modkey, }, "Return", function() awful.spawn(require("menubar").utils.terminal) end,
             { description = "open a terminal", group = "launcher" })
     )
 end
@@ -165,8 +162,8 @@ local function c_client_keys()
                 c:raise()
             end,
             { description = "toggle fullscreen", group = "client" }),
-        awful.key({ Modkey, "Shift" }, "c", function(c) c:kill() end,
-            { description = "close", group = "client" }),
+        awful.key({ Modkey, }, "q", function(c) c:kill() end,
+            { description = "quit", group = "client" }),
         awful.key({ Modkey, "Control" }, "space", awful.client.floating.toggle,
             { description = "toggle floating", group = "client" }),
         awful.key({ Modkey, "Control" }, "Return", function(c) c:swap(awful.client.getmaster()) end,

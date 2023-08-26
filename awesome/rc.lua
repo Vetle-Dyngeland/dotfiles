@@ -1,5 +1,3 @@
--- If LuaRocks is installed, make sure that packages installed through it are
--- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
 -- Standard awesome library
@@ -8,49 +6,17 @@ local awful = require("awful")
 require("awful.autofocus")
 -- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
-    naughty.notify({
-        preset = naughty.config.presets.critical,
-        title = "Error during startup!",
-        text = awesome.startup_errors
-    })
-end
-
--- Handle runtime errors after startup
-do
-    local in_error = false
-    awesome.connect_signal("debug::error", function(err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
-
-        naughty.notify({
-            preset = naughty.config.presets.critical,
-            title = "An error occurred!",
-            text = tostring(err)
-        })
-        in_error = false
-    end)
-end
--- }}}
+require("errors")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "kitty"
-editor = os.getenv("EDITOR") or "nvim"
-editor_cmd = terminal .. " -e " .. editor
+local terminal = "kitty"
+require("menubar").utils.terminal = terminal
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -62,26 +28,8 @@ Modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.spiral.dwindle,
-    -- awful.layout.suit.fair.horizontal,
-    -- awful.layout.suit.spiral,
-    -- awful.layout.suit.tile,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.tile.top,
-    -- awful.layout.suit.fair,
-    -- awful.layout.suit.magnifier,
-    -- awful.layout.suit.corner.nw,
-    -- awful.layout.suit.corner.ne,
-    -- awful.layout.suit.corner.sw,
-    -- awful.layout.suit.corner.se,
+    awful.layout.suit.spiral.floating,
 }
--- }}}
-
--- {{{ Menu
--- Menubar configuration
-require("menubar").utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
-
 -- {{{ Wibar
 -- Create a wibox for each screen and add it
 
@@ -111,65 +59,11 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 -- }}}
 
-local keybinds = require("keybinds")
-root.keys(keybinds.globalkeys)
+root.keys(require("keybinds").globalkeys)
 
 -- {{{ Rules
 -- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = {
-    -- All clients will match this rule.
-    {
-        rule = {},
-        properties = {
-            border_width = beautiful.border_width,
-            border_color = beautiful.border_normal,
-            focus = awful.client.focus.filter,
-            raise = true,
-            keys = keybinds.clientkeys,
-            buttons = keybinds.clientbuttons,
-            screen = awful.screen.preferred,
-            placement = awful.placement.no_overlap + awful.placement.no_offscreen
-        }
-    },
-
-    -- Floating clients.
-    {
-        rule_any = {
-            instance = {
-                "DTA",   -- Firefox addon DownThemAll.
-                "copyq", -- Includes session name in class.
-                "pinentry",
-            },
-            class = {
-                "Arandr",
-                "Blueman-manager",
-                "Gpick",
-                "Kruler",
-                "MessageWin",  -- kalarm.
-                "Sxiv",
-                "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-                "Wpa_gui",
-                "veromix",
-                "xtightvncviewer" },
-
-            -- Note that the name property shown in xprop might be set slightly after creation of the client
-            -- and the name shown there might not match defined rules here.
-            name = {
-                "Event Tester", -- xev.
-            },
-            role = {
-                "AlarmWindow",   -- Thunderbird's calendar.
-                "ConfigManager", -- Thunderbird's about:config.
-                "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
-            }
-        },
-        properties = { floating = true }
-    },
-
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
-}
+require("rules")
 -- }}}
 
 -- {{{ Signals

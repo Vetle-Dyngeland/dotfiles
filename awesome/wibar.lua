@@ -4,8 +4,13 @@ local lain = require("lain")
 local gears = require("gears")
 local keybinds = require("keybinds")
 
-local function promptbox_widget()
-    return awful.widget.prompt()
+local function restart_button_widget()
+    return awful.widget.button({
+        image = require("beautiful").awesome_icon,
+        buttons = {
+            awful.button({}, 1, nil, awesome.restart),
+        }
+    })
 end
 
 local function taglist_widget(s)
@@ -14,6 +19,10 @@ local function taglist_widget(s)
         filter = awful.widget.taglist.filter.all,
         buttons = keybinds.widgetbuttons.taglist
     })
+end
+
+local function promptbox_widget()
+    return awful.widget.prompt()
 end
 
 local function tasklist_widget(s)
@@ -123,6 +132,7 @@ return {
             layout = wibox.layout.align.horizontal,
             { -- Left
                 layout = wibox.layout.fixed.horizontal,
+                restart_button_widget(),
                 taglist_widget(s),
                 promptbox_widget(),
             },

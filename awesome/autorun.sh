@@ -11,6 +11,8 @@ run() {
 run nitrogen --restore
 run xscreensaver
 run nm-applet
+run start-pulseaudio-x11
 run pulseaudio
+run lightscreen
 
 run steam
