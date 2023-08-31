@@ -7,5 +7,6 @@ recentrepos:
 startuppopupversion: 5
 customcommandshistory:
 - git add nvim
+- git add nvim/lua
 hidecommandlog: false
 ignorewhitespaceindiffview: false
