@@ -1,7 +1,6 @@
 lastupdatecheck: 0
 recentrepos:
 - /home/velte/.config
-- /home/velte/Documents/nvim
 - /home/velte/development/projects/rust/bevy/platformer_2
 - /home/velte/development/projects/rust/bevy/simple_physics
 startuppopupversion: 5
