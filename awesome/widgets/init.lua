@@ -6,5 +6,5 @@ return {
     tray = require("widgets.tray"),
     cpu = require("widgets.cpu"),
     audio = require("widgets.audio"),
-    restart = require("widgets.restart")
+    restart = require("widgets.restart"),
 }

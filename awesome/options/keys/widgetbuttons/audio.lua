@@ -6,11 +6,7 @@ return function(v)
         awful.button({}, 1, function() -- left click
             awful.spawn("pavucontrol")
         end),
-        awful.button({}, 2, function() -- middle click
-            os.execute(string.format("pactl set-sink-volume %s 100%%", v.device))
-            v.update()
-        end),
-        awful.button({}, 3, function() -- right click
+        awful.button({}, 3, function()         -- right click
             os.execute(string.format("pactl set-sink-mute %s toggle", v.device))
             v.update()
         end),

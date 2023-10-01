@@ -7,8 +7,6 @@ run() {
 }
 
 # Boring applications
-nitrogen --set-zoom-fill --head=0 ~/Images/Wallpapers/Purple\ river.png &
-nitrogen --set-zoom-fill --head=1 ~/Images/Wallpapers/Purple\ river.png &
 run xscreensaver --no-splash
 run numlockx on
 run nm-applet --indicator
@@ -19,3 +17,5 @@ run steam
 run firefox
 run discord
 run spotify
+nitrogen --random --head=0 --set-zoom-fill ~/Images/Wallpapers/
+nitrogen --random --head=1 --set-zoom-fill ~/Images/Wallpapers/
