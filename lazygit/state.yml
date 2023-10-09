@@ -1,6 +1,7 @@
 lastupdatecheck: 0
 recentrepos:
 - /home/velte/.config
+- /home/velte/dev/projects/rust/macroquad/falling_sand
 - /home/velte/dev/projects/rust/bevy/parkour
 - /home/velte/.config/tmux
 startuppopupversion: 5
