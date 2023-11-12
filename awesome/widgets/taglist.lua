@@ -4,6 +4,6 @@ return function(s)
     return awful.widget.taglist({
         screen = s,
         filter = awful.widget.taglist.filter.all,
-        buttons = require("options.keys.widgetbuttons.taglist")
+        buttons = require("keys.widgetbuttons.taglist")
     })
 end

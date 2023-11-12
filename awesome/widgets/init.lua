@@ -1,11 +1,9 @@
+local tasklist = require "widgets.tasklist"
 return {
-    taglist = function(s) return require("widgets.taglist")(s) end,
-    textclock = require("widgets.textclock"),
-    promptbox = require("widgets.promptbox"),
-    tasklist = function(s) return require("widgets.tasklist")(s) end,
+    taglist = require("widgets.taglist"),
+    tasklist = require("widgets.tasklist"),
     tray = require("widgets.tray"),
-    cpu = require("widgets.cpu"),
-    audio = require("widgets.audio"),
-    restart = require("widgets.restart"),
-    media_vicious = require("widgets.media_vicious")
+    promptbox = require("widgets.promptbox"),
+    textclock = require("widgets.textclock"),
+    media = require("widgets.media")
 }
