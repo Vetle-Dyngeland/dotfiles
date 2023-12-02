@@ -22,7 +22,13 @@ local function load_files(path)
             :gsub("~/.config/nvim/lua/", "") -- Without the start
             :gsub("/", "%.")                 -- Changing all / to .
             :sub(0, -5)                      -- Without the .lua on the end
-        table.insert(t, require(fixed))
+
+        local ok, plugin = pcall(require, fixed)
+        if not ok then
+            print("Could not load plugin " .. fixed)
+            goto continue
+        end
+        table.insert(t, plugin)
         ::continue::
     end
 
