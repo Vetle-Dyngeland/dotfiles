@@ -44,6 +44,19 @@ return {
             map("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts("Signature help"))
         end)
 
+        require("lspconfig").gdscript.setup({
+            on_attach = function(client)
+                local _notify = client.notify
+                client.notify = function(method, params)
+                    if method == "textDocument/didClose" then
+                        -- Godot doesn't implement didClose yet
+                        return
+                    end
+                    _notify(method, params)
+                end
+            end
+        })
+
         lsp.ensure_installed({
             "rust_analyzer",
             "lua_ls"
