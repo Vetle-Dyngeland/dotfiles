@@ -1,17 +1,16 @@
 local awful = require("awful")
 local wibox = require("wibox")
+local beautiful = require("beautiful")
 
-local theme = require("themes.catppuccin.theme")
 local widgets = require("widgets")
 
 local vicious = require("vicious")
 local net_widgets = require("net_widgets")
---local lain = require("lain")
 
 local function new_top_panel(s)
     return awful.wibar({
         position = "top",
-        height = theme.toppanel_height,
+        height = beautiful.toppanel_height,
         opacity = 0,
         screen = s
     })
@@ -44,7 +43,7 @@ local function top_panel(s)
             net_widgets.wireless(),
             widgets.textclock,
             require("awesome-wm-widgets.logout-menu-widget.logout-menu")({
-                font = "Hack Nerd Font Regular",
+                font = "Hack Nerd Font",
                 onlock = function() awful.spawn.with_shell("i3lock") end
             }),
         }

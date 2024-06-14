@@ -108,3 +108,6 @@ nvim/lazy-lock.json
 nvim/lazy-lock.json
 pavucontrol.ini
 lazygit
+awesome/awesome-wm-widgets
+awesome/vicious
+tmux
