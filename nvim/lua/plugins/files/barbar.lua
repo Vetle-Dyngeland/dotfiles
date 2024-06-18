@@ -29,9 +29,9 @@ return {
     end,
     config = function()
         require("barbar").setup({
-            animation = false,
+            animation = true,
             auto_hide = true,
-            clickable = false,
+            clickable = true,
             icons = {
                 buffer_index = true,
                 diagnostics = {

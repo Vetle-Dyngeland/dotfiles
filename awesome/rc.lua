@@ -4,7 +4,7 @@ require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 require("awful").spawn.with_shell("~/.config/awesome/autostart.sh")
 
-require("beautiful").init("~/.config/awesome/themes/theme.lua")
+require("beautiful").init("~/.config/awesome/theme.lua")
 
 require("errors")
 

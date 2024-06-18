@@ -18,8 +18,13 @@ awful.rules.rules = {
     },
     {
         rule = { class = "Spotify" },
-        properties = { screen = 2, tag = "2" }
+        properties = { screen = 1, tag = "3" }
     },
+    {
+        rule = { class = "Discord" },
+        properties = { screen = 2, tag = "3" }
+    },
+
     {
         rule_any = {
             instance = {
