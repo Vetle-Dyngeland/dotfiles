@@ -30,19 +30,6 @@ return {
             { "<c-space>", desc = "Increment Selection" },
             { "<bs>",      desc = "Decrement selection", mode = "x" }
         },
-        opts = {
-            highlight = { enable = true },
-            indent = { enable = true },
-            context_commentstring = { enable = true, enable_autocmd = false },
-            auto_install = true,
-            ensure_installed = {
-                "lua",
-                "luadoc",
-                "luap",
-                "rust",
-                "vim",
-            },
-        },
         config = function()
             require("nvim-treesitter.configs").setup({
                 highlight = { enable = true },

@@ -7,7 +7,7 @@ g.loaded_netrwPlugin = 1
 g.markdown_recommended_style = 0
 
 opt.termguicolors = true
-opt.colorcolumn = "80"
+opt.colorcolumn = "81"
 opt.signcolumn = "yes"
 
 opt.nu = true
