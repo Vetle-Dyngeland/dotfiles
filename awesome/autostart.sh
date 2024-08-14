@@ -12,7 +12,6 @@ run start-pulseaudio-x11
 run lightscreen
 
 run firefox
-run discord
 run spotify
 run steam
 

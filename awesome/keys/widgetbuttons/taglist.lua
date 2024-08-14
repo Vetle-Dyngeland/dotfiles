@@ -1,8 +1,7 @@
-local gears = require("gears")
 local awful = require("awful")
 local modkey = require("keys.mod").modkey
 
-return gears.table.join(
+return awful.util.table.join(
     awful.button({}, 1, function(t) t:view_only() end),
     awful.button({ modkey }, 1, function(t)
         if client.focus then

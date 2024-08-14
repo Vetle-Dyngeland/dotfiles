@@ -1,8 +1,7 @@
-local gears = require("gears")
 local awful = require("awful")
 
 return function(v)
-    return gears.table.join(
+    return awful.util.table.join(
         awful.button({}, 1, function() -- left click
             awful.spawn("pavucontrol")
         end),

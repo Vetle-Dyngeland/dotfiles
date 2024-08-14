@@ -1,6 +1,3 @@
-local gears = require("gears")
-
-
 local keys = {
     require("keys.global.tag"),
     require("keys.global.client"),
@@ -13,8 +10,8 @@ local keys = {
 
 local globalkeys = {}
 
-for _, table in ipairs(keys) do
-    globalkeys = gears.table.join(globalkeys, table)
+for _, t in ipairs(keys) do
+    globalkeys = require("awful").util.table.join(globalkeys, t)
 end
 
 return globalkeys

@@ -1,7 +1,7 @@
 local awful = require("awful")
 local modkey = require("keys.mod").modkey
 
-return require("gears").table.join(
+return awful.util.table.join(
     awful.key({ modkey, }, "f",
         function(c)
             c.fullscreen = not c.fullscreen

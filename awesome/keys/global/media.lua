@@ -1,6 +1,6 @@
 local awful = require("awful")
 
-return require("gears").table.join(
+return awful.util.table.join(
     awful.key({}, "XF86AudioRaiseVolume",
         function() awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ +2%") end,
         { description = "Increase volume", group = "media" }),

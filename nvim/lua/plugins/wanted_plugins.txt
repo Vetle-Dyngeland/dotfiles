@@ -1,2 +1,0 @@
-maybe echasnovski/mini.nvim#mini.files
-diffview.nvim

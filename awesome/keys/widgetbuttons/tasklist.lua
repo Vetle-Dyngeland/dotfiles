@@ -1,7 +1,6 @@
-local gears = require("gears")
 local awful = require("awful")
 
-return gears.table.join(
+return awful.util.table.join(
     awful.button({}, 1, function(c)
         if c == client.focus then
             c.minimized = true

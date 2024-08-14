@@ -1,7 +1,7 @@
 local awful = require("awful")
 local modkey = require("keys.mod").modkey
 
-return require("gears").table.join(
+return awful.util.table.join(
     awful.key({ modkey, }, "l", function() awful.tag.incmwfact(0.05) end,
         { description = "increase master width factor", group = "layout" }),
     awful.key({ modkey, }, "h", function() awful.tag.incmwfact(-0.05) end,

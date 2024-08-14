@@ -1,7 +1,7 @@
 local awful = require("awful")
 local modkey = require("keys.mod").modkey
 
-return require("gears").table.join(
+return awful.util.table.join(
     awful.key({ modkey, "Control" }, "j", function() awful.screen.focus_relative(1) end,
         { description = "focus the next screen", group = "screen" }),
     awful.key({ modkey, "Control" }, "k", function() awful.screen.focus_relative(-1) end,
