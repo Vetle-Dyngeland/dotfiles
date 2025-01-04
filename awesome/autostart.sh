@@ -17,3 +17,5 @@ run steam
 
 nitrogen --random --head=0 --set-zoom-fill ~/Images/Wallpapers/
 nitrogen --random --head=1 --set-zoom-fill ~/Images/Wallpapers/
+
+sudo xremap ~/.config/xremapconfig.yml &

@@ -1,0 +1,5 @@
+modmap:
+- name: Caps,
+  remap: 
+    capslock: backspace
+    backspace: capslock
