@@ -52,4 +52,4 @@ local plugins = load_files("~/.config/nvim/lua/plugins/")
 
 require("lazy").setup(plugins)
 
-print("Loaded "..#plugins.." plugin files!")
+print("Loaded " .. #plugins .. " plugin files!")

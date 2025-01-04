@@ -1,6 +1,5 @@
 return {
     "VonHeikemen/lsp-zero.nvim",
-    branch = "v2.x",
     dependencies = {
         "neovim/nvim-lspconfig",
         {
@@ -21,75 +20,86 @@ return {
         "rafamadriz/friendly-snippets",
     },
     config = function()
-        local lsp = require("lsp-zero").preset({})
-
-        lsp.on_attach(function(_, bufnr)
-            lsp.default_keymaps({ buffer = bufnr })
-
-            local function opts(description)
-                return { buffer = bufnr, remap = false, desc = description }
-            end
-
-            local map = vim.keymap.set
-
-            map("n", "<leader>f", vim.lsp.buf.format, opts("Format"))
-            map("n", "gd", function() vim.lsp.buf.definition() end, opts("Go to definition"))
-            map("n", "gr", "<cmd>TroubleToggle lsp_references<cr>", opts("Toggle Trouble lsp_references"))
-            map("n", "K", function() vim.lsp.buf.hover() end, opts("Lsp hover"))
-            map("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts("Open floating diagnostics"))
-            map("n", "<leader>va", "<cmd>CodeActionMenu<cr>", opts("Code action"))
-            map("n", "<leader>vn", function() vim.diagnostic.goto_next() end, opts("Go to next diagnostic"))
-            map("n", "<leader>vN", function() vim.diagnostic.goto_prev() end, opts("Go to previous diagnostic"))
-            map("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts("Rename (vim)"))
-            map("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts("Signature help"))
-        end)
-
-        require("lspconfig").gdscript.setup({
-            on_attach = function(client)
-                local _notify = client.notify
-                client.notify = function(method, params)
-                    if method == "textDocument/didClose" then
-                        -- Godot doesn't implement didClose yet
-                        return
-                    end
-                    _notify(method, params)
+        -- This is where you enable features that only work
+        -- if there is a language server active in the file
+        vim.api.nvim_create_autocmd("LspAttach", {
+            desc = "LSP actions",
+            callback = function(event)
+                local opts = function(description)
+                    return { buffer = event.buf, desc = description }
                 end
+
+                local map = vim.keymap.set
+
+                map("n", "<leader>f", function() vim.lsp.buf.format({ async = false, timeout_ms = 10000 }) end,
+                    opts("Format"))
+                map("n", "gd", function() vim.lsp.buf.definition() end, opts("Go to definition"))
+                map("n", "gr", "<cmd>TroubleToggle lsp_references<cr>", opts("Toggle Trouble lsp_references"))
+                map("n", "K", function() vim.lsp.buf.hover() end, opts("Lsp hover"))
+                map("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts("Open floating diagnostics"))
+                map("n", "<leader>va", "<cmd>CodeActionMenu<cr>", opts("Code action"))
+                map("n", "<leader>vn", function() vim.diagnostic.goto_next() end, opts("Go to next diagnostic"))
+                map("n", "<leader>vN", function() vim.diagnostic.goto_prev() end, opts("Go to previous diagnostic"))
+                map("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts("Rename (vim)"))
+                map("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts("Signature help"))
             end
         })
 
-        lsp.ensure_installed({
-            "rust_analyzer",
-            "lua_ls"
-        })
+        require("mason").setup()
+        require("mason-lspconfig").setup({
+            ensure_installed = { "lua_ls", "rust_analyzer" },
+            handlers = {
+                function(server_name)
+                    require("lspconfig")[server_name].setup({})
+                end,
 
-        lsp.configure("lua_ls", {
-            settings = {
-                Lua = {
-                    runtime = {
-                        version = "LuaJIT"
-                    },
-                    diagnostics = {
-                        globals = { 'vim' },
-                    },
-                    telemetry = {
-                        enable = false,
-                    },
-                }
+                lua_ls = function()
+                    require("lspconfig").lua_ls.setup({
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    version = "LuaJIT"
+                                },
+                                diagnostics = {
+                                    globals = { 'vim' },
+                                },
+                                telemetry = {
+                                    enable = false,
+                                },
+                            }
+                        }
+                    })
+                end,
+
+                --[[gdscript = function()
+                    require("lspconfig").gdscript.setup({
+                        on_attach = function(client)
+                            local _notify = client.notify
+                            client.notify = function(method, params)
+                                if method == "textDocument/didClose" then
+                                    -- Godot doesn't implement didClose yet
+                                    return
+                                end
+                                _notify(method, params)
+                            end
+                        end
+                    })
+                end,]]
             }
         })
 
-        lsp.set_sign_icons({
-            error = " ",
-            warn = " ",
-            hint = "󰘥 ",
-            info = " "
-        })
+        local lspconfig_defaults = require('lspconfig').util.default_config
+        lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+            'force',
+            lspconfig_defaults.capabilities,
+            require('cmp_nvim_lsp').default_capabilities()
+        )
 
-        lsp.setup()
+        require("luasnip.loaders.from_vscode").lazy_load()
 
-        local luasnip = require("luasnip")
         local cmp = require("cmp")
-        local cmp_mappings = lsp.defaults.cmp_mappings({
+
+        local cmp_mappings = cmp.mapping.preset.insert({
             ["<C-d>"] = cmp.mapping.scroll_docs(-4),
             ["<C-f>"] = cmp.mapping.scroll_docs(4),
             ["<C-space>"] = cmp.mapping.complete({}),
@@ -97,8 +107,8 @@ return {
             ["<Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_next_item()
-                elseif luasnip.expand_or_jumpable() then
-                    luasnip.expand_or_jump()
+                elseif require("luasnip").expand_or_jumpable() then
+                    require("luasnip").expand_or_jump()
                 else
                     fallback()
                 end
@@ -106,21 +116,24 @@ return {
             ["<S-Tab>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
-                elseif luasnip.jumpable(-1) then
-                    luasnip.jump(-1)
+                elseif require("luasnip").jumpable(-1) then
+                    require("luasnip").jump(-1)
                 else
                     fallback()
                 end
             end, { "i", "s" }),
         })
 
-        require("luasnip.loaders.from_vscode").lazy_load()
-
         cmp.setup({
             mapping = cmp_mappings,
             preselect = "item",
             completion = {
                 completeopt = "menu,menuone,noinsert"
+            },
+            snippet = {
+                expand = function(args)
+                    require("luasnip").lsp_expand(args.body)
+                end
             },
             sources = {
                 { name = "nvim_lsp" },
@@ -132,6 +145,14 @@ return {
         })
 
         vim.diagnostic.config({
+            signs = {
+                text = {
+                    [vim.diagnostic.severity.ERROR] = " ",
+                    [vim.diagnostic.severity.WARN] = " ",
+                    [vim.diagnostic.severity.HINT] = "󰘥 ",
+                    [vim.diagnostic.severity.INFO] = " ",
+                },
+            },
             virtual_text = true,
             underline = true,
             severity_sort = true,
